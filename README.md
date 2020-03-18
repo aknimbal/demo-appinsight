@@ -13,4 +13,4 @@ To use the Application Insights SDK you will need to provide it with an Instrume
 
 Replace [ENTER AI KEY] with your instrumentation key in ApplicationInsights.config 
 
-<InstrumentationKey>[ENTER AI KEY]</InstrumentationKey> 
+See: <InstrumentationKey>[ENTER AI KEY]</InstrumentationKey> 
