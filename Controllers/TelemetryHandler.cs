@@ -16,6 +16,7 @@ namespace demo_appinsight_linqsql.Controllers
         public TelemetryHandler()
         {
             _appInsightsClient = new TelemetryClient();
+            //_appInsightsClient.InstrumentationKey=""
            // _appInsightsClient.InstrumentationKey = ConfigManager.Insights_Key;
         }
 
@@ -26,6 +27,7 @@ namespace demo_appinsight_linqsql.Controllers
 
         public void Pageview(string pagename)
         {
+     
             _appInsightsClient.TrackPageView(pagename);
             
         }

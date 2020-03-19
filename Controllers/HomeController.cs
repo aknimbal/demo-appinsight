@@ -14,8 +14,10 @@ namespace demo_appinsight_linqsql.Controllers
 
         public ActionResult Index()
         {
+            //pageview
             _ai.Pageview("System Trace");
 
+            //use trace method to write to application insight
             Trace.AutoFlush =true;
             Trace.TraceInformation("Informational telemetry using Trace");
             Trace.TraceError("Error telemetry using Trace");
@@ -27,9 +29,26 @@ namespace demo_appinsight_linqsql.Controllers
 
         public ActionResult About()
         {
+            //LinqtoSQL Example
+            LinqtoSQLDataContext nw = new LinqtoSQLDataContext();
+
+            var empQuery =
+                   from emp in nw.Employees
+                   where emp.Id == 1
+                   select emp.Name;
+            
+            foreach(var _emp in empQuery)
+            {
+                //capture SQL statement of LinqToSQL
+                Trace.TraceInformation(string.Format("{0}", empQuery.ToString()));
+            }
+
+            //PageView
             _ai.Pageview("Exception");
 
             ViewBag.Message = "";
+
+            //capture type conversion error
             try
             {
                 if (ViewBag.Message)
@@ -46,6 +65,7 @@ namespace demo_appinsight_linqsql.Controllers
 
         public ActionResult Contact()
         {
+            //use of Trace and Telemetryclient methods
 
             var startTime = DateTime.UtcNow;
             var timer = System.Diagnostics.Stopwatch.StartNew();
@@ -58,10 +78,12 @@ namespace demo_appinsight_linqsql.Controllers
             ViewBag.Message = "Telemetry Client";
             timer.Stop();
             _ai.Dependency("Total Time Taken","Contact method", "Calling both Trace and Telemetry Client", startTime, timer.Elapsed, true);
-            
+
+            //custom metrics
             var _metrics = new MetricTelemetry();
             _metrics.Name = "TTL for Contact method";
             _metrics.Sum = timer.ElapsedMilliseconds;
+           
             _ai.CustomMetrics(_metrics);
          
             return View();
